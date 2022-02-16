@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scribe</title>
+</head>
+<body>
+
+    <h1 id="test">Scribe</h1>
+    <p>Markdown</p>
+    <textarea id="md" onchange="markdownToHTML()"></textarea>
+    <p>HTML</p>
+    <textarea id="ht" readonly></textarea>
+
+    <div class="container">
+    <div id="output">
+    </div>
+</div>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@600;800&display=swap');
+
+        *{
+            font-family: 'Inter', sans-serif;
+        }
+
+        #ht, #md{
+            width: 50vw;
+            height: 35vh;
+            resize: none
+        }
+
+
+        #output{
+            position: absolute;
+            float: right;
+            top: 17.75%;
+            left: 60%;
+            width: 30vw;
+            height: 75vh;
+            outline: 1px;
+            outline-color: grey;
+            outline-style: solid;
+            padding: 1em;
+            overflow-y: scroll;
+        }
+    </style>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        let ht = document.getElementById("ht");
+        let md = document.getElementById("md");
+        let output = document.getElementById("output");
+        
+
+        function markdownToHTML(){
+            ht.innerHTML = "";
+            output.innerHTML = "";
+            const lineBreak = "&#10";
+            var textArea = document.getElementById('md');
+            var lines = textArea.value.split('\n');    // lines is an array of strings
+
+            // Loop through all lines
+            for (var j = 0; j < lines.length; j++) {
+                if (String(lines[j]).startsWith("# ")){
+                    str = String(lines[j]).substring(2);
+                    ht.innerHTML = ht.innerHTML + `<h1>${str}</h1>` + lineBreak + "<hr>"
+                    output.innerHTML = output.innerHTML + `<h1>${str}</h1>` + lineBreak + "<hr>"
+                } else if(String(lines[j]).startsWith("## ")){
+                    str = String(lines[j]).substring(3);
+                    ht.innerHTML = ht.innerHTML + `<h2>${str}</h2>` + lineBreak
+                    output.innerHTML = output.innerHTML + `<h2>${str}</h2>` + lineBreak
+                } else if(String(lines[j]).startsWith("### ")){
+                    str = String(lines[j]).substring(4);
+                    ht.innerHTML = ht.innerHTML + `<h3>${str}</h3>` + lineBreak
+                    output.innerHTML = output.innerHTML + `<h3>${str}</h3>` + lineBreak
+                } else if(String(lines[j]).startsWith("#### ")){
+                    str = String(lines[j]).substring(5);
+                    ht.innerHTML = ht.innerHTML + `<h4>${str}</h4>` + lineBreak
+                    output.innerHTML = output.innerHTML + `<h4>${str}</h4>` + lineBreak
+                } else if(String(lines[j]).startsWith("##### ")){
+                    str = String(lines[j]).substring(6);
+                    ht.innerHTML = ht.innerHTML + `<h5>${str}</h5>` + lineBreak
+                    output.innerHTML = output.innerHTML + `<h5>${str}</h5>` + lineBreak
+                } else if(String(lines[j]).startsWith("###### ")){
+                    str = String(lines[j]).substring(7);
+                    ht.innerHTML = ht.innerHTML + `<h6>${str}</h6>` + lineBreak
+                    output.innerHTML = output.innerHTML + `<h6>${str}</h6>` + lineBreak
+                }else{
+                    ht.innerHTML = ht.innerHTML + String(lines[j])
+                    output.innerHTML = output.innerHTML + String(lines[j])
+                }
+            }
+        }
+    </script>
+</body>
+</html>
